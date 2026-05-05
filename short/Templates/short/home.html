@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کوتاه‌کننده لینک | حرفه‌ای و امن</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            padding: 50px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            font-size: 48px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            margin-top: 30px;
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .result-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            flex: 1;
+            word-break: break-all;
+            font-size: 14px;
+        }
+
+        .result-link:hover {
+            text-decoration: underline;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            width: auto;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(0);
+        }
+
+        .stats {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .toast.show {
+            display: flex;
+        }
+
+        .toast.success {
+            background: #10b981;
+        }
+
+        .toast.error {
+            background: #ef4444;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loader {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .result-box {
+                flex-direction: column;
+            }
+            
+            .copy-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <span class="logo-icon">🔗</span>
+        </div>
+        <h1>کوتاه‌کننده لینک</h1>
+        <p class="subtitle">لینک‌های بلند خود را سریع و امن کوتاه کنید</p>
+        
+        <form id="shortenForm">
+            <div class="input-group">
+                <label>آدرس لینک</label>
+                <input type="url" id="longUrl" placeholder="https://example.com/very/long/url" required>
+            </div>
+            <button type="submit" id="submitBtn">
+                <span id="btnText">کوتاه کردن لینک</span>
+            </button>
+        </form>
+        
+        <div class="result-section" id="resultSection">
+            <div class="result-box">
+                <a href="#" id="resultLink" class="result-link" target="_blank"></a>
+                <button type="button" class="copy-btn" id="copyBtn">📋 کپی</button>
+            </div>
+            <div class="stats" id="stats"></div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">
+        <span id="toastIcon">✓</span>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        const form = document.getElementById('shortenForm');
+        const longUrlInput = document.getElementById('longUrl');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const resultSection = document.getElementById('resultSection');
+        const resultLink = document.getElementById('resultLink');
+        const copyBtn = document.getElementById('copyBtn');
+        const statsDiv = document.getElementById('stats');
+        const toast = document.getElementById('toast');
+        const toastIcon = document.getElementById('toastIcon');
+        const toastMessage = document.getElementById('toastMessage');
+
+        function showToast(message, type = 'success') {
+            toastIcon.textContent = type === 'success' ? '✓' : '✕';
+            toastMessage.textContent = message;
+            toast.className = `toast show ${type}`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const longUrl = longUrlInput.value.trim();
+            
+            if (!longUrl) {
+                showToast('لطفاً یک لینک وارد کنید', 'error');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<span class="loader"></span>';
+            resultSection.classList.remove('show');
+            
+            try {
+                const response = await fetch('/api/shorten/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `long_url=${encodeURIComponent(longUrl)}`
+                });
+                
+                const data = await response.json();
+                
+                if (data.short_url) {
+                    resultLink.href = data.short_url;
+                    resultLink.textContent = data.short_url;
+                    statsDiv.textContent = data.is_new ? '✨ لینک جدید ساخته شد' : `📊 این لینک قبلاً استفاده شده | کلیک‌ها: ${data.clicks}`;
+                    resultSection.classList.add('show');
+                    showToast('لینک با موفقیت کوتاه شد!', 'success');
+                    longUrlInput.value = '';
+                } else if (data.error) {
+                    showToast(data.error, 'error');
+                } else {
+                    showToast('خطایی رخ داد، دوباره تلاش کنید', 'error');
+                }
+            } catch (error) {
+                showToast('ارتباط با سرور برقرار نشد', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = 'کوتاه کردن لینک';
+            }
+        });
+        
+        copyBtn.addEventListener('click', async () => {
+            const url = resultLink.href;
+            if (url && url !== '#') {
+                try {
+                    await navigator.clipboard.writeText(url);
+                    showToast('لینک کپی شد!', 'success');
+                } catch (err) {
+                    showToast('خطا در کپی کردن', 'error');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
